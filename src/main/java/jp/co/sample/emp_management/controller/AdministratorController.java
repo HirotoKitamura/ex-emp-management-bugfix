@@ -66,6 +66,7 @@ public class AdministratorController {
 	 * 
 	 * @param form   管理者情報用フォーム
 	 * @param result 入力値チェック結果
+	 * @param model  リクエストスコープ
 	 * @return ログイン画面へリダイレクト 入力値チェックに引っかかった場合はこの画面に留まる
 	 */
 	@RequestMapping("/insert")
@@ -103,7 +104,8 @@ public class AdministratorController {
 	 * ログインします.
 	 * 
 	 * @param form   管理者情報用フォーム
-	 * @param result エラー情報格納用オブッジェクト
+	 * @param result エラー情報格納用オブジェクト
+	 * @param model  リクエストスコープ
 	 * @return ログイン後の従業員一覧画面
 	 */
 	@RequestMapping("/login")

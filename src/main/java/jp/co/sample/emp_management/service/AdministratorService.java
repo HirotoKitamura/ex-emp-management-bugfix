@@ -42,11 +42,10 @@ public class AdministratorService {
 	}
 
 	/**
-	 * メールアドレスが既にDBにあるものと重複しているチェック.
+	 * メールアドレスが既にDBにあるものと重複しているかチェック.
 	 * 
 	 * @param mailAddress メールアドレス
 	 * @return メールアドレスが重複していればtrue、いなければfalse
-	 * @throws ExistingEmailException
 	 */
 	public boolean isExistingMailAddress(String mailAddress) {
 		Administrator administrator = administratorRepository.findByMailAddress(mailAddress);
