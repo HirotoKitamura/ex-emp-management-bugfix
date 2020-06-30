@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/xxx.css">
+</head>
+<body>
+<h1>404</h1>
+ページが見つかりません<br>
+<div th:unless="${session.administratorName}">ログイン画面は<a th:href="@{/}">こちら</a></div>
+<div th:if="${session.administratorName}">従業員一覧画面は<a th:href="@{/employee/showList}">こちら</a></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body>
+</html>
