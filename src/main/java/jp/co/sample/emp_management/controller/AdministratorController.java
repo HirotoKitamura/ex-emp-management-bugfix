@@ -70,15 +70,10 @@ public class AdministratorController {
 	 */
 	@RequestMapping("/insert")
 	public String insert(@Validated InsertAdministratorForm form, BindingResult result, Model model) {
-		boolean canRegister = true;
-		if (result.hasErrors()) {
-			canRegister = false;
-		}
 		if (administratorService.isExistingMailAddress(form.getMailAddress())) {
-			model.addAttribute("mailAddressExists", "このメールアドレスは既に登録されています");
-			canRegister = false;
+			result.rejectValue("mailAddress", "mailAddressExists", "このメールアドレスは既に登録されています");
 		}
-		if (!canRegister) {
+		if (result.hasErrors()) {
 			return "administrator/insert";
 		}
 		Administrator administrator = new Administrator();
