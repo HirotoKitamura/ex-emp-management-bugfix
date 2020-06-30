@@ -73,6 +73,9 @@ public class AdministratorController {
 		if (administratorService.isExistingMailAddress(form.getMailAddress())) {
 			result.rejectValue("mailAddress", "mailAddressExists", "このメールアドレスは既に登録されています");
 		}
+		if (!"".equals(form.getConfirmPassword()) && !form.getPassword().equals(form.getConfirmPassword())) {
+			result.rejectValue("confirmPassword", "passwordNotMatch", "確認用パスワードが一致しません");
+		}
 		if (result.hasErrors()) {
 			return "administrator/insert";
 		}
