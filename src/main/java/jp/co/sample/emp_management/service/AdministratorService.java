@@ -16,27 +16,39 @@ import jp.co.sample.emp_management.repository.AdministratorRepository;
 @Service
 @Transactional
 public class AdministratorService {
-	
+
 	@Autowired
 	private AdministratorRepository administratorRepository;
 
 	/**
 	 * 管理者情報を登録します.
 	 * 
-	 * @param administrator　管理者情報
+	 * @param administrator 管理者情報
 	 */
 	public void insert(Administrator administrator) {
 		administratorRepository.insert(administrator);
 	}
-	
+
 	/**
 	 * ログインをします.
+	 * 
 	 * @param mailAddress メールアドレス
-	 * @param password パスワード
-	 * @return 管理者情報　存在しない場合はnullが返ります
+	 * @param password    パスワード
+	 * @return 管理者情報 存在しない場合はnullが返ります
 	 */
 	public Administrator login(String mailAddress, String passward) {
 		Administrator administrator = administratorRepository.findByMailAddressAndPassward(mailAddress, passward);
 		return administrator;
+	}
+
+	/**
+	 * メールアドレスが既にDBにあるものと重複しているチェック.
+	 * 
+	 * @param mailAddress メールアドレス
+	 * @return メールアドレスが重複していればtrue、いなければfalse
+	 */
+	public boolean isExistingMailAddress(String mailAddress) {
+		Administrator administrator = administratorRepository.findByMailAddress(mailAddress);
+		return administrator != null;
 	}
 }

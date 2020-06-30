@@ -69,8 +69,16 @@ public class AdministratorController {
 	 * @return ログイン画面へリダイレクト 入力値チェックに引っかかった場合はこの画面に留まる
 	 */
 	@RequestMapping("/insert")
-	public String insert(@Validated InsertAdministratorForm form, BindingResult result) {
+	public String insert(@Validated InsertAdministratorForm form, BindingResult result, Model model) {
+		boolean canRegister = true;
 		if (result.hasErrors()) {
+			canRegister = false;
+		}
+		if (administratorService.isExistingMailAddress(form.getMailAddress())) {
+			model.addAttribute("mailAddressExists", "このメールアドレスは既に登録されています");
+			canRegister = false;
+		}
+		if (!canRegister) {
 			return "administrator/insert";
 		}
 		Administrator administrator = new Administrator();
