@@ -53,6 +53,7 @@
 		<!-- パンくずリスト -->
 		<ol class="breadcrumb">
 			<li class="active"><a href="list.html" th:href="@{/employee/showList}">従業員リスト</a></li>
+			<li th:if="${isResultScreen}" th:text="従業員検索結果" class="active"></li>
 		</ol>
 
 		<!-- table -->
@@ -63,6 +64,18 @@
 <!-- ここから上を編集する必要はありません -->
 
 <!-- ここにモックのtable要素を貼り付けます -->
+				<form method="post" action="../employee/list.html" th:action="@{/employee/searchEmployee}">
+						<fieldset>
+							<div class="form-group">
+								<label for="search">従業員検索:</label>
+								<input type="text" name="partOfName" id="search" class="form-control" placeholder="名前の一部からでも検索できます">
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">検索</button>
+								<span th:if="${hasNoResult}" style="color: red;">結果が1件もありません 全従業員一覧を表示しています</span>
+							</div>
+						</fieldset>
+					</form>
 
 				<table class="table table-striped">
 					<thead>

@@ -75,6 +75,20 @@ public class EmployeeRepository {
 	}
 
 	/**
+	 * 名前の一部から従業員情報を部分一致検索します.
+	 * 
+	 * @param partOfName 検索したい文字列
+	 * @return 検索された従業員のリスト
+	 */
+	public List<Employee> findByPartOfName(String partOfName) {
+		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees WHERE name LIKE :name;";
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + partOfName + "%");
+
+		return template.query(sql, param, EMPLOYEE_ROW_MAPPER);
+	}
+
+	/**
 	 * 従業員情報を変更します.
 	 */
 	public void update(Employee employee) {

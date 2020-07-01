@@ -21,17 +21,17 @@ public class EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
+
 	/**
 	 * 従業員情報を全件取得します.
 	 * 
-	 * @return　従業員情報一覧
+	 * @return 従業員情報一覧
 	 */
 	public List<Employee> showList() {
 		List<Employee> employeeList = employeeRepository.findAll();
 		return employeeList;
 	}
-	
+
 	/**
 	 * 従業員情報を取得します.
 	 * 
@@ -43,11 +43,26 @@ public class EmployeeService {
 		Employee employee = employeeRepository.load(id);
 		return employee;
 	}
-	
+
+	/**
+	 * 名前の一部から従業員情報を部分一致検索します.
+	 * 
+	 * 空欄(スペース含む)で検索した場合は全件検索をします
+	 * 
+	 * @param partOfName 検索したい文字列
+	 * @return 検索された従業員のリスト
+	 */
+	public List<Employee> searchByPartOfName(String partOfName) {
+		if ("".equals(partOfName.trim().replace("　", ""))) {
+			return employeeRepository.findAll();
+		}
+		return employeeRepository.findByPartOfName(partOfName);
+	}
+
 	/**
 	 * 従業員情報を更新します.
 	 * 
-	 * @param employee　更新した従業員情報
+	 * @param employee 更新した従業員情報
 	 */
 	public void update(Employee employee) {
 		employeeRepository.update(employee);
