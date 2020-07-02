@@ -33,7 +33,7 @@
 <!-- ここから上を編集する必要はありません -->
 
 <!-- ここにモックのtable要素を貼り付けます -->
-				<form method="post" action="../employee/list.html" th:action="@{/employee/searchEmployee}">
+				<form method="post" action="../employee/list.html" th:action="@{/employee/showList}">
 						<fieldset>
 							<div class="form-group">
 								<label for="search">従業員検索:</label>
@@ -70,6 +70,15 @@
 						</tr>
 					</tbody>
 				</table>
+				<div id="pageDiv" th:if="${employeeList}">
+				<form id="pageForm" th:action="@{/employee/showList}" method="post">
+					<input id="page" type="hidden" name="page" th:value="${page}">
+					<input type="hidden" name="partOfName" th:value="${partOfName}">
+					<button id="prev" type="button" th:unless="${page==1}">前のページへ</button>
+					<span th:text="${page}+'ページ目'"></span>
+					<button id="next" type="button" th:unless="${isLast}">次のページへ</button>
+				</form>
+				</div><br>
 
 
 <!-- ここから下を編集する必要はありません -->

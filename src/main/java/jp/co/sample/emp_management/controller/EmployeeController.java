@@ -1,6 +1,7 @@
 package jp.co.sample.emp_management.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,37 +59,71 @@ public class EmployeeController {
 	 * @param model モデル
 	 * @return 従業員一覧画面
 	 */
-	@RequestMapping("/showList")
-	public String showList(Model model) {
-		List<Employee> employeeList = employeeService.showList();
-		model.addAttribute("employeeList", employeeList);
-		return "employee/list";
-	}
+//	@RequestMapping("/showList")
+//	public String showList(Model model, Integer page) {
+//		List<Employee> employeeList = employeeService.showList();
+//		model.addAttribute("page", page == null ? 1 : page);
+//		if (page == null) {
+//			page = 1;
+//		}
+//		model.addAttribute("page", page);
+//		List<Employee> partOfList = new ArrayList<>();
+//		try {
+//			try {
+//				partOfList = employeeList.subList(page * 10 - 9, page * 10 + 1);
+//			} catch (Exception e) {
+//				partOfList = employeeList.subList(page * 10 - 9, employeeList.size());
+//			}
+//		} catch (Exception e) {
+//
+//		}
+//		model.addAttribute("employeeList", partOfList);
+//		return "employee/list";
+//	}
 
 	/////////////////////////////////////////////////////
 	// ユースケース：従業員を検索する
 	/////////////////////////////////////////////////////
 	/**
-	 * 従業員を名前から部分一致検索し、結果の一覧画面を出力します.
+	 * 従業員一覧画面を表示します.
 	 * 
+	 * 検索ボタンから来た場合は従業員を名前から部分一致検索し、結果の一覧画面を出力します
 	 * 空欄(スペース含む)で検索した場合は全件検索、結果が1件もない場合はエラーメッセージを出した上で全件検索をします
 	 * 
 	 * @param partOfName 入力された文字列
 	 * @param model      モデル
 	 * @return 従業員一覧画面
 	 */
-	@RequestMapping("/searchEmployee")
-	public String searchEmployee(String partOfName, Model model) {
-		if (partOfName == null) {
-			return "redirect:/employee/showList";
+	@RequestMapping("/showList")
+	public String searchEmployee(String partOfName, Model model, Integer page) {
+		if (partOfName != null && !"".equals(partOfName.trim().replace("　", ""))) {
+			model.addAttribute("isResultScreen", true);
 		}
-		model.addAttribute("isResultScreen", true);
 		List<Employee> employeeList = employeeService.searchByPartOfName(partOfName);
-		model.addAttribute("employeeList", employeeList);
 		if (employeeList.size() == 0) {
 			model.addAttribute("hasNoResult", true);
-			model.addAttribute("employeeList", employeeService.showList());
+			employeeList = employeeService.showList();
 		}
+		if (page == null) {
+			page = 1;
+		}
+		model.addAttribute("page", page);
+		List<Employee> partOfList = new ArrayList<>();
+		try {
+			try {
+				partOfList = employeeList.subList(page * 10 - 9, page * 10 + 1);
+				if (employeeList.size() == page * 10 + 1) {
+					model.addAttribute("isLast", true);
+				}
+			} catch (Exception e) {
+				partOfList = employeeList.subList(page * 10 - 9, employeeList.size());
+				model.addAttribute("isLast", true);
+			}
+		} catch (Exception e) {
+			partOfList = null;
+		}
+		model.addAttribute("employeeList", partOfList);
+		model.addAttribute("partOfName", partOfName);
 		return "employee/list";
 	}
 

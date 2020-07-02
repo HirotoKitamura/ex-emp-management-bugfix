@@ -9,3 +9,7 @@
 .error-messages {
 	color: #ff0000;
 }
+
+#pageDiv {
+	text-align: center;
+}

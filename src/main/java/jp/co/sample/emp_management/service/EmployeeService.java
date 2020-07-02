@@ -63,7 +63,7 @@ public class EmployeeService {
 	 * @return 検索された従業員のリスト
 	 */
 	public List<Employee> searchByPartOfName(String partOfName) {
-		if ("".equals(partOfName.trim().replace("　", ""))) {
+		if (partOfName == null || "".equals(partOfName.trim().replace("　", ""))) {
 			return employeeRepository.findAll();
 		}
 		return employeeRepository.findByPartOfName(partOfName);
