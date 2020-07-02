@@ -1,10 +1,19 @@
 package jp.co.sample.emp_management.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.sample.emp_management.domain.Employee;
 import jp.co.sample.emp_management.repository.EmployeeRepository;
@@ -60,11 +69,52 @@ public class EmployeeService {
 	}
 
 	/**
+	 * 従業員を追加します.
+	 * 
+	 * @param employee 追加する従業員情報
+	 */
+	public void insert(Employee employee) {
+		employeeRepository.insert(employee);
+	}
+
+	/**
 	 * 従業員情報を更新します.
 	 * 
 	 * @param employee 更新した従業員情報
 	 */
 	public void update(Employee employee) {
 		employeeRepository.update(employee);
+	}
+
+	public String encode(MultipartFile multiFile) throws IllegalStateException, IOException {
+		Path path = savefile(multiFile);
+		File file = new File(path.toString());
+		multiFile.transferTo(file);
+		byte[] fileContent = Files.readAllBytes(file.toPath());
+		return Base64.getEncoder().encodeToString(fileContent);
+	}
+
+	/**
+	 * 新しくアップロードされた画像に付与するファイル名を取得.
+	 * 
+	 * @return ファイル名
+	 */
+	public String getNewPictureName() {
+		return "e" + (employeeRepository.findMaxPictureId() + 1) + ".png";
+	}
+
+	/**
+	 * 新しくアップロードされた画像を保存.
+	 * 
+	 * @param file アップロードされた画像
+	 * @throws IOException 例外
+	 */
+	public Path savefile(MultipartFile file) throws IOException {
+		Path uploadfile = Paths
+				.get(System.getProperty("user.dir") + "/src/main/resources/static/img/" + getNewPictureName());
+		OutputStream os = Files.newOutputStream(uploadfile, StandardOpenOption.CREATE);
+		byte[] bytes = file.getBytes();
+		os.write(bytes);
+		return uploadfile;
 	}
 }

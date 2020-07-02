@@ -89,6 +89,17 @@ public class EmployeeRepository {
 	}
 
 	/**
+	 * 従業員を追加します.
+	 * 
+	 * @param employee 追加する従業員情報
+	 */
+	public void insert(Employee employee) {
+		String sql = "INSERT INTO employees VALUES ((SELECT max(id) FROM employees)+1,:name,:image,:gender,:hireDate,:mailAddress,:zipCode,:address,:telephone,:salary,:characteristics,:dependentsCount);";
+		SqlParameterSource param = new BeanPropertySqlParameterSource(employee);
+		template.update(sql, param);
+	}
+
+	/**
 	 * 従業員情報を変更します.
 	 */
 	public void update(Employee employee) {
@@ -96,5 +107,15 @@ public class EmployeeRepository {
 
 		String updateSql = "UPDATE employees SET dependents_count=:dependentsCount WHERE id=:id";
 		template.update(updateSql, param);
+	}
+
+	/**
+	 * 画像のe〇.pngの〇の中で最大のものを取得.
+	 * 
+	 * @return 取得された番号
+	 */
+	public Integer findMaxPictureId() {
+		String sql = "SELECT MAX(TRANSLATE(TRANSLATE(image,'e',''),'.png','')) from employees;";
+		return template.queryForObject(sql, new MapSqlParameterSource(), Integer.class);
 	}
 }
