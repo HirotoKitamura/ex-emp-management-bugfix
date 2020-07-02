@@ -156,7 +156,7 @@ public class EmployeeController {
 		if (picture.isEmpty()) {
 			result.rejectValue("picture", null, "画像をアップロードしてください");
 		}
-		if (picture.getOriginalFilename().endsWith(".png") && !picture.getOriginalFilename().endsWith(".jpg")) {
+		if (!picture.getOriginalFilename().endsWith(".png") && !picture.getOriginalFilename().endsWith(".jpg")) {
 			result.rejectValue("picture", null, "画像形式はJPGかPNGに限ります");
 		}
 		if (result.hasErrors()) {

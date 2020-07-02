@@ -122,7 +122,7 @@ public class InsertEmployeeForm {
 	}
 
 	public void setSalary(Integer salary) {
-		this.salary = salary;
+		this.salary = salary == null ? 0 : salary;
 	}
 
 	public String getCharacteristics() {
@@ -138,7 +138,7 @@ public class InsertEmployeeForm {
 	}
 
 	public void setDependentsCount(Integer dependentsCount) {
-		this.dependentsCount = dependentsCount;
+		this.dependentsCount = dependentsCount == null ? 0 : dependentsCount;
 	}
 
 	@Override
