@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.sample.emp_management.domain.Employee;
 import jp.co.sample.emp_management.form.InsertEmployeeForm;
@@ -149,14 +150,26 @@ public class EmployeeController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/insert")
-	public String insert(@Validated InsertEmployeeForm form, BindingResult result, Model model) throws IOException {
+	synchronized public String insert(@Validated InsertEmployeeForm form, BindingResult result, Model model)
+			throws IOException {
+		MultipartFile picture = form.getPicture();
+		if (picture.isEmpty()) {
+			result.rejectValue("picture", null, "画像をアップロードしてください");
+		}
+		if (picture.getOriginalFilename().endsWith(".png") && !picture.getOriginalFilename().endsWith(".jpg")) {
+			result.rejectValue("picture", null, "画像形式はJPGかPNGに限ります");
+		}
 		if (result.hasErrors()) {
 			return "employee/insert";
 		}
 		Employee employee = new Employee();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, employee);
-		employee.setImage(employeeService.encode(form.getPicture()));
+		if (picture.getOriginalFilename().endsWith(".jpg")) {
+			employee.setImage("data:image/jpg;base64," + employeeService.encode(picture));
+		} else {
+			employee.setImage("data:image/png;base64," + employeeService.encode(picture));
+		}
 		employeeService.insert(employee);
 		return "redirect:/employee/showList";
 	}

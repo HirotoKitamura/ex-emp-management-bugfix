@@ -7,7 +7,7 @@ $(function() {
 			url: "https://zipcoda.net/api",
 			dataType: "jsonp",
 			data: { 
-				zipcode: $("#zipCode").val()
+				zipcode: $("#zipCode").val().replace("-","")
 			},
 			async: true
 		}).done(function(data) {

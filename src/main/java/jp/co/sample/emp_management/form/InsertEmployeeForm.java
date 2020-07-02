@@ -3,7 +3,10 @@ package jp.co.sample.emp_management.form;
 import java.sql.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
+import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -20,7 +23,7 @@ public class InsertEmployeeForm {
 	/** 画像 */
 	private MultipartFile picture;
 	/** 性別 */
-	@NotBlank(message = "性別を選択してください")
+	@NotEmpty(message = "性別を選択してください")
 	private String gender;
 	/** 入社日 */
 	private Date hireDate;
@@ -28,16 +31,22 @@ public class InsertEmployeeForm {
 	@NotBlank(message = "メールアドレスを入力してください")
 	private String mailAddress;
 	/** 郵便番号 */
+	@Pattern(regexp = "^\\d{3}-\\d{4}$", message = "指定の形式で入力してください")
 	private String zipCode;
 	/** 住所 */
+	@NotBlank(message = "住所を入力してください")
 	private String address;
 	/** 電話番号 */
+	@Pattern(regexp = "^0\\d{2,3}-\\d{1,4}-\\d{4}$", message = "指定の形式で入力してください")
 	private String telephone;
 	/** 給料 */
+	@Range(min = 0, max = 100000000, message = "0円から1億円の範囲で入力して下さい")
 	private Integer salary;
 	/** 特性 */
+	@NotBlank(message = "特性を入力してください")
 	private String characteristics;
 	/** 扶養人数 */
+	@Range(min = 0, max = 100000000, message = "0人から1億人の範囲で入力して下さい")
 	private Integer dependentsCount;
 
 	public String getName() {
@@ -85,7 +94,7 @@ public class InsertEmployeeForm {
 	}
 
 	public String getZipCode() {
-		return new String(new StringBuilder().append(zipCode).insert(3, "-"));
+		return zipCode;
 	}
 
 	public void setZipCode(String zipCode) {
@@ -109,7 +118,7 @@ public class InsertEmployeeForm {
 	}
 
 	public Integer getSalary() {
-		return salary;
+		return salary == null ? 0 : salary;
 	}
 
 	public void setSalary(Integer salary) {
@@ -125,7 +134,7 @@ public class InsertEmployeeForm {
 	}
 
 	public Integer getDependentsCount() {
-		return dependentsCount;
+		return dependentsCount == null ? 0 : dependentsCount;
 	}
 
 	public void setDependentsCount(Integer dependentsCount) {

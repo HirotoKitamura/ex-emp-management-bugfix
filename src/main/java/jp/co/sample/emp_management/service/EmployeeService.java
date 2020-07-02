@@ -99,8 +99,8 @@ public class EmployeeService {
 	 * 
 	 * @return ファイル名
 	 */
-	public String getNewPictureName() {
-		return "e" + (employeeRepository.findMaxPictureId() + 1) + ".png";
+	public Integer getNewPictureName() {
+		return employeeRepository.findMaxPictureId() + 1;
 	}
 
 	/**
@@ -111,7 +111,8 @@ public class EmployeeService {
 	 */
 	public Path savefile(MultipartFile file) throws IOException {
 		Path uploadfile = Paths
-				.get(System.getProperty("user.dir") + "/src/main/resources/static/img/" + getNewPictureName());
+				.get(System.getProperty("user.dir") + "/src/main/resources/static/img/" + file.getOriginalFilename());
+
 		OutputStream os = Files.newOutputStream(uploadfile, StandardOpenOption.CREATE);
 		byte[] bytes = file.getBytes();
 		os.write(bytes);

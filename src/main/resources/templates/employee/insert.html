@@ -92,7 +92,7 @@
 											入社日
 										</label>
 										<input type="date" name="hireDate" id="hireDate" class="form-control" placeholder="2005-07-04"
-											 th:field="*{hireDate}" th:errorclass="error-input">
+											 th:errorclass="error-input" th:value="${insertEmployeeForm.hireDate}?${insertEmployeeForm.hireDate}:'2005-07-04'">
 									</div>
 								</div>
 							</div>
@@ -106,7 +106,7 @@
 										<label th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" class="error-messages">
 											メールアドレスを入力してください
 										</label>
-										<input type="text" name="mailAddress" id="mailAddress" class="form-control" placeholder="yamada@mail.com"
+										<input type="email" name="mailAddress" id="mailAddress" class="form-control" placeholder="yamada@mail.com"
 											 th:field="*{mailAddress}" th:errorclass="error-input" value="yamada@mail.com">
 									</div>
 								</div>
@@ -116,13 +116,13 @@
 								<div class="row">
 									<div class="col-sm-12">
 										<label for="zipCode">
-											郵便番号(ハイフンは入れないでください):
+											郵便番号(ハイフンを入れてください):
 										</label>
 										<label th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" class="error-messages">
 											
 										</label>
 										<input type="text" name="zipCode" id="zipCode" class="form-control" placeholder="0000000"
-											 th:field="*{zipCode}" th:errorclass="error-input" value="yamada@mail.com"><button type="button" id="getAddress">住所取得</button>
+											 th:field="*{zipCode}" th:errorclass="error-input"><button type="button" id="getAddress">住所取得</button>
 									</div>
 								</div>
 							</div>
@@ -166,7 +166,7 @@
 										<label th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="error-messages">
 											
 										</label>
-										<input type="number" name="salary" id="salary" class="form-control" placeholder="700000"
+										<input type="text" name="salary" id="salary" class="form-control" placeholder="700000"
 											 th:field="*{salary}" th:errorclass="error-input">
 									</div>
 								</div>
@@ -196,7 +196,7 @@
 										<label th:if="${#fields.hasErrors('dependentsCount')}" th:errors="*{dependentsCount}" class="error-messages">
 											
 										</label>
-										<input type="number" name="dependentsCount" id="dependentsCount" class="form-control" placeholder="0"
+										<input type="text" name="dependentsCount" id="dependentsCount" class="form-control" placeholder="0"
 											 th:field="*{dependentsCount}" th:errorclass="error-input">
 									</div>
 								</div>
