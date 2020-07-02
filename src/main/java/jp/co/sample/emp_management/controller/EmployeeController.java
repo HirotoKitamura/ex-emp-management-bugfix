@@ -1,7 +1,9 @@
 package jp.co.sample.emp_management.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.sample.emp_management.domain.Employee;
@@ -87,6 +90,20 @@ public class EmployeeController {
 			model.addAttribute("employeeList", employeeService.showList());
 		}
 		return "employee/list";
+	}
+
+	/**
+	 * 名前の一部から従業員名を検索します.
+	 * 
+	 * @param partOfName 名前の一部
+	 * @return 従業員名のリストが入ったマップ.
+	 */
+	@ResponseBody
+	@RequestMapping("/suggest")
+	public Map<String, List<String>> suggest(String partOfName) {
+		Map<String, List<String>> map = new HashMap<>();
+		map.put("names", employeeService.searchNameByPartOfName(partOfName));
+		return map;
 	}
 
 	/////////////////////////////////////////////////////
@@ -173,4 +190,5 @@ public class EmployeeController {
 		employeeService.insert(employee);
 		return "redirect:/employee/showList";
 	}
+
 }
