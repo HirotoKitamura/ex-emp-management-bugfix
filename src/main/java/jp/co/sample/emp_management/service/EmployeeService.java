@@ -100,6 +100,14 @@ public class EmployeeService {
 		employeeRepository.update(employee);
 	}
 
+	/**
+	 * 画像をBase64の文字列に変換します.
+	 * 
+	 * @param multiFile 画像
+	 * @return 返還後の文字列
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	public String encode(MultipartFile multiFile) throws IllegalStateException, IOException {
 		Path path = savefile(multiFile);
 		File file = new File(path.toString());
