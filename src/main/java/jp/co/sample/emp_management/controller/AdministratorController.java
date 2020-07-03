@@ -1,7 +1,5 @@
 package jp.co.sample.emp_management.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,9 +28,6 @@ public class AdministratorController {
 
 	@Autowired
 	private AdministratorService administratorService;
-
-	@Autowired
-	private HttpSession session;
 
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
@@ -131,10 +126,10 @@ public class AdministratorController {
 	 * 
 	 * @return ログイン画面
 	 */
-	@RequestMapping(value = "/logout")
-	public String logout() {
-		session.invalidate();
-		return "redirect:/login";
-	}
+//	@RequestMapping(value = "/logout")
+//	public String logout() {
+//		session.invalidate();
+//		return "redirect:/login";
+//	}
 
 }

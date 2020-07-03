@@ -30,19 +30,20 @@
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="list.html" th:href="@{/employee/showList}">従業員管理</a></li>
 					</ul>
-					<form class="navbar-text navbar-right">
+					<form method="post" id="logout" th:action="@{/logout}" class="navbar-text navbar-right">
 					   <span sec:authentication="principal.name">山田太郎</span>さんこんにちは！
 						&nbsp;&nbsp;&nbsp;
 						<a href="../administrator/login.html" class="navbar-link" th:href="@{/employee/toInsert}">従業員登録</a>
 						&nbsp;&nbsp;&nbsp;
-						<a href="../administrator/login.html" class="navbar-link" th:href="@{/logout}">ログアウト</a>
+						<a href="#" id="logoutlink" class="navbar-link">ログアウト</a>
 					</form>
 				</div>
 				<!-- /.navbar-collapse -->
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/header.js}"></script>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
 </html>
