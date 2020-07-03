@@ -111,12 +111,12 @@ public class EmployeeController {
 		List<Employee> partOfList = new ArrayList<>();
 		try {
 			try {
-				partOfList = employeeList.subList(page * 10 - 9, page * 10 + 1);
-				if (employeeList.size() == page * 10 + 1) {
+				partOfList = employeeList.subList(page * 10 - 10, page * 10);
+				if (employeeList.size() == page * 10) {
 					model.addAttribute("isLast", true);
 				}
 			} catch (Exception e) {
-				partOfList = employeeList.subList(page * 10 - 9, employeeList.size());
+				partOfList = employeeList.subList(page * 10 - 10, employeeList.size());
 				model.addAttribute("isLast", true);
 			}
 		} catch (Exception e) {
