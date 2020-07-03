@@ -2,7 +2,7 @@
  * 
  */
 $(function() {
-	$("#search").on("keyup", function() {
+	function() {
 		$.ajax({
 			url: "http://localhost:8080/employee/suggest",
 			dataType: "json",
@@ -23,7 +23,7 @@ $(function() {
 			console.log("errorThrown    : " + errorThrown.message);
 		}).always(function(data) {
 		});
-	})
+	}
 	$("#prev").on("click", function(){
 		$("button").prop("disabled", true);
 		$("#page").val(parseInt($("#page").val(),10)-1);
