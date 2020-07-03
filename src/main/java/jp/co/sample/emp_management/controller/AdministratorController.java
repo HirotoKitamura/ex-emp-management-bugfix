@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jp.co.sample.emp_management.domain.Administrator;
+import jp.co.sample.emp_management.domain.AuthAdmin;
 import jp.co.sample.emp_management.form.InsertAdministratorForm;
 import jp.co.sample.emp_management.form.LoginForm;
 import jp.co.sample.emp_management.service.AdministratorService;
@@ -90,14 +92,15 @@ public class AdministratorController {
 	/////////////////////////////////////////////////////
 	// ユースケース：ログインをする
 	/////////////////////////////////////////////////////
+
 	/**
-	 * ログイン画面を出力します.
+	 * ログイン画面に飛ばす
 	 * 
 	 * @return ログイン画面
 	 */
-	@RequestMapping("/")
-	public String toLogin() {
-		return "administrator/login";
+	@RequestMapping("")
+	public String index() {
+		return "redirect:/login";
 	}
 
 	/**
@@ -109,14 +112,15 @@ public class AdministratorController {
 	 * @return ログイン後の従業員一覧画面
 	 */
 	@RequestMapping("/login")
-	public String login(LoginForm form, BindingResult result, Model model) {
-		Administrator administrator = administratorService.login(form.getMailAddress(), form.getPassword());
-		if (administrator == null) {
+	public String login(LoginForm form, Model model, Boolean error, @AuthenticationPrincipal AuthAdmin admin) {
+//		Administrator administrator = administratorService.login(form.getMailAddress(), form.getPassword());
+		if (error != null && error) {
 			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
-			return toLogin();
+			return "administrator/login";
 		}
-		session.setAttribute("administratorName", administrator.getName());
-		return "forward:/employee/showList";
+		System.out.println(admin == null ? "ないよー" : admin.getUsername());
+//		session.setAttribute("administratorName", administrator.getName());
+		return "administrator/login";
 	}
 
 	/////////////////////////////////////////////////////
@@ -130,7 +134,7 @@ public class AdministratorController {
 	@RequestMapping(value = "/logout")
 	public String logout() {
 		session.invalidate();
-		return "redirect:/";
+		return "redirect:/login";
 	}
 
 }
