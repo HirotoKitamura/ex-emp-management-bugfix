@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/", "/toInsert", "/insert").permitAll()
 				.antMatchers("/img/*", "/css/*", "/js/*", "/static/js/*").permitAll().anyRequest().authenticated();
 
-		http.logout().logoutSuccessUrl("/login").permitAll();
+		http.logout().logoutSuccessUrl("/login").deleteCookies("JSESSIONID").invalidateHttpSession(true).permitAll();
 	}
 
 	@Autowired
