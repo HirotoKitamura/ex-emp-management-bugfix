@@ -81,7 +81,7 @@ public class EmployeeRepository {
 	 * @return 検索された従業員のリスト
 	 */
 	public List<Employee> findByPartOfName(String partOfName) {
-		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees WHERE name LIKE :name;";
+		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees WHERE name LIKE :name ORDER BY hire_date, id;";
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + partOfName + "%");
 
@@ -95,7 +95,7 @@ public class EmployeeRepository {
 	 * @return 検索された従業員名のリスト
 	 */
 	public List<String> findNameByPartOfName(String partOfName) {
-		String sql = "SELECT name FROM employees WHERE name LIKE :name;";
+		String sql = "SELECT name FROM employees WHERE name LIKE :name ORDER BY hire_date, id;";
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + partOfName + "%");
 
