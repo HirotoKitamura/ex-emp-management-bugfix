@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -76,9 +75,7 @@ public class EmployeeService {
 	 * @return 検索された従業員名のリスト
 	 */
 	public List<String> searchNameByPartOfName(String partOfName) {
-		if ("".equals(partOfName.trim().replace("　", ""))) {
-			return new ArrayList<>();
-		}
+
 		return employeeRepository.findNameByPartOfName(partOfName);
 	}
 
