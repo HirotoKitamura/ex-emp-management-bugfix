@@ -2,7 +2,9 @@
  * 
  */
 $(function() {
+	$(document).ready(
 	function() {
+		console.log("にゃー")
 		$.ajax({
 			url: "http://localhost:8080/employee/suggest",
 			dataType: "json",
@@ -24,14 +26,5 @@ $(function() {
 		}).always(function(data) {
 		});
 	}
-	$("#prev").on("click", function(){
-		$("button").prop("disabled", true);
-		$("#page").val(parseInt($("#page").val(),10)-1);
-		$("#pageForm").submit();
-	})
-	$("#next").on("click", function(){
-		$("button").prop("disabled", true);
-		$("#page").val(parseInt($("#page").val(),10)+1);
-		$("#pageForm").submit();
-	})
+	)
   } );

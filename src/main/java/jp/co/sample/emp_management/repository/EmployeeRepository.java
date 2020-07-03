@@ -41,6 +41,18 @@ public class EmployeeRepository {
 		return employee;
 	};
 
+	/**
+	 * ID、名前、入社日、扶養人数が入ったEmployeeオブジェクトを生成するローマッパー.
+	 */
+	private static final RowMapper<Employee> PART_OF_EMPLOYEE_ROW_MAPPER = (rs, i) -> {
+		Employee employee = new Employee();
+		employee.setId(rs.getInt("id"));
+		employee.setName(rs.getString("name"));
+		employee.setHireDate(rs.getDate("hire_date"));
+		employee.setDependentsCount(rs.getInt("dependents_count"));
+		return employee;
+	};
+
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
@@ -50,9 +62,9 @@ public class EmployeeRepository {
 	 * @return 全従業員一覧 従業員が存在しない場合はサイズ0件の従業員一覧を返します
 	 */
 	public List<Employee> findAll() {
-		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees ORDER BY hire_date, id";
+		String sql = "SELECT id,name,hire_date,dependents_count FROM employees ORDER BY hire_date, id";
 
-		List<Employee> developmentList = template.query(sql, EMPLOYEE_ROW_MAPPER);
+		List<Employee> developmentList = template.query(sql, PART_OF_EMPLOYEE_ROW_MAPPER);
 
 		return developmentList;
 	}
@@ -81,11 +93,11 @@ public class EmployeeRepository {
 	 * @return 検索された従業員のリスト
 	 */
 	public List<Employee> findByPartOfName(String partOfName) {
-		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees WHERE name LIKE :name ORDER BY hire_date, id;";
+		String sql = "SELECT id,name,hire_date,dependents_count FROM employees WHERE name LIKE :name ORDER BY hire_date, id;";
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + partOfName + "%");
 
-		return template.query(sql, param, EMPLOYEE_ROW_MAPPER);
+		return template.query(sql, param, PART_OF_EMPLOYEE_ROW_MAPPER);
 	}
 
 	/**
